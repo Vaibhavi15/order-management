@@ -1,10 +1,9 @@
 {
-  "Post": {
-    "title": "string",
-    "views": "int",
-    "published": "boolean",
-    "createdAt": "date",
-    "comments": "Comment[]"
+  "Products": {
+    "id": 1,
+    "name": "QuickBooks",
+    "price": 5000,
+    "stock": 10,
   },
   "Comment": {
     "body": "string",
