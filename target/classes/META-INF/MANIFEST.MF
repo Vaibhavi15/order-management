@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: Vaibhavi
+Build-Jdk: 15.0.2
+Implementation-Title: ordermanagement
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.vaibhavi.intuit.demo
+Implementation-URL: https://spring.io/projects/spring-boot/ordermanageme
+ nt
+Created-By: Maven Integration for Eclipse
+
