@@ -1,23 +1,11 @@
 {
-  "Products": [{
-    "id": 1,
-    "name": "QuickBooks",
-    "price": 5000,
-    "stock": 5,
+  "Post": {
+    "title": "string",
+    "views": "int",
+    "published": "boolean",
+    "createdAt": "date",
+    "comments": "Comment[]"
   },
-  {
-    "id": 2,
-    "name": "Turbo Tax",
-    "price": 5500,
-    "stock": 10,
-  },
-  {
-    "id": 3,
-    "name": "Mint",
-    "price": 2000,
-    "stock": 15,
-  }]
-  ,
   "Comment": {
     "body": "string",
     "post": "Post"
