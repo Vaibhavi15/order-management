@@ -18,7 +18,7 @@ import com.vaibhavi.intuit.demo.ordermanagement.service.OrderPlaceService;
 public class OrderRestController {
 	
 	@Autowired
-	OrderPlaceService orderPlaceService;
+	private OrderPlaceService orderPlaceService;
 
 	@PostMapping("/orders")
 	public Order placeOrder(@Valid @RequestBody Order productOrder)

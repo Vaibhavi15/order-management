@@ -23,7 +23,7 @@ public class ProductPriceServiceImpl implements ProductPriceService{
 	String PRODUCT_PRICE_SERVICE_URL;
 	
 	@Override
-	public Product getProductPrice(int productId) {
+	public Product getProductPrice(Integer productId) {
 		
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));

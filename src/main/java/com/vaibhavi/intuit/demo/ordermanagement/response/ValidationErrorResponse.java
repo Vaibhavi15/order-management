@@ -5,6 +5,7 @@ import java.util.Map;
 public class ValidationErrorResponse {
 
 		private int status;
+		private String message;
 		private Map<String,String> errors;
 		private long timeStamp;
 		
@@ -25,6 +26,13 @@ public class ValidationErrorResponse {
 		}
 		public void setTimeStamp(long timeStamp) {
 			this.timeStamp = timeStamp;
+		}
+		public String getMessage() {
+			return message;
+		}
+		public void setMessage(String message) {
+			this.message = message;
 		}	
+		
 
 }

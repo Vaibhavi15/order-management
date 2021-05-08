@@ -42,6 +42,7 @@ public class DefaultExceptionHandler {
 	    });
 	    
 	    validationErrorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+	    validationErrorResponse.setMessage("Input Validation Error");
 	    validationErrorResponse.setErrors(errors);
 	    validationErrorResponse.setTimeStamp(System.currentTimeMillis());
 	    

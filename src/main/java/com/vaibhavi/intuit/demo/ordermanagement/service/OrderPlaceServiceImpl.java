@@ -25,10 +25,6 @@ public class OrderPlaceServiceImpl implements OrderPlaceService {
 	@Override
 	public Order placeOrder(Order productOrder) {
 		
-		/*Post dummyPost = new Post();
-		dummyPost.setUserId(15);
-		dummyPost.setBody("This is my 1000th post muaahahaha");*/
-		
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 	    

@@ -11,6 +11,10 @@ public class Product {
 	private float price;
 	private int stock;
 	
+	public Product() {
+		
+	}
+	
 	public Product(Integer productId, String productName, float price, int stock) {
 		this.productId = productId;
 		this.productName = productName;
@@ -45,6 +49,12 @@ public class Product {
 	}
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+
+	@Override
+	public String toString() {
+		return "[productId:" + productId + ", productName:" + productName + ", price:" + price + ", stock="
+				+ stock + "]";
 	}
 	
 }
