@@ -1,5 +1,6 @@
 package com.vaibhavi.intuit.demo.ordermanagement.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,10 +16,13 @@ import reactor.core.publisher.Mono;
 @Service
 public class ProductPriceServiceImpl implements ProductPriceService{
 
+	@Value("${product-price-service.url}")
+	String PRICE_SERVICE_URL;
+	
 	@Override
 	public float getProductPrice(int productId) {
 		WebClient client = WebClient.builder()
-				  .baseUrl("http://jsonplaceholder.typicode.com")
+				  .baseUrl(PRICE_SERVICE_URL)
 				  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) 
 				  .build();
 		

@@ -1,13 +1,17 @@
 package com.vaibhavi.intuit.demo.ordermanagement.entity;
 
+import javax.validation.constraints.NotNull;
+
+
 public class Product {
 	
-	private int productId;
+	@NotNull(message = "Product Id cannot be null.")
+	private Integer productId;
 	private String productName;
 	private float price;
 	private int stock;
 	
-	public Product(int productId, String productName, float price, int stock) {
+	public Product(Integer productId, String productName, float price, int stock) {
 		this.productId = productId;
 		this.productName = productName;
 		this.price = price;
@@ -30,10 +34,10 @@ public class Product {
 		this.stock = stock;
 	}
 	
-	public int getProductId() {
+	public Integer getProductId() {
 		return productId;
 	}
-	public void setProductId(int productId) {
+	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
 	public String getProductName() {

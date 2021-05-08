@@ -1,8 +1,14 @@
 package com.vaibhavi.intuit.demo.ordermanagement.entity;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 public class OrderProduct {
-	private Product product;
+
+	@NotNull(message="Product cannot be null")
+	private @Valid Product product;
 	private int quantity;
+	
 	public Product getProduct() {
 		return product;
 	}
