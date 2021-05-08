@@ -2,9 +2,17 @@ package com.vaibhavi.intuit.demo.ordermanagement.entity;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class Order {
 	private int orderId;
 	private String orderCreationTime;
+	@NotEmpty(message = "Order is empty, no products specified")
+	@NotNull(message = "Order is null, no products specified")
+	private List<@Valid OrderProduct> orderProduct;
+	private String status;
 	
 	public Order(int orderId, String orderCreationTime, List<OrderProduct> orderProduct, String status) {
 		this.orderId = orderId;
@@ -36,6 +44,5 @@ public class Order {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	private List<OrderProduct> orderProduct;
-	private String status;
+	
 }
