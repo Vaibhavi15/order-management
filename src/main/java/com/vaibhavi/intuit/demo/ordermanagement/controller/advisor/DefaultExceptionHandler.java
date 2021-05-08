@@ -3,6 +3,8 @@ package com.vaibhavi.intuit.demo.ordermanagement.controller.advisor;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -10,15 +12,19 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.vaibhavi.intuit.demo.ordermanagement.exception.ProductNotFoundException;
+import com.vaibhavi.intuit.demo.ordermanagement.exception.OrderInvalidException;
+import com.vaibhavi.intuit.demo.ordermanagement.exception.ProductIdInvalidException;
+import com.vaibhavi.intuit.demo.ordermanagement.response.OrderErrorResponse;
 import com.vaibhavi.intuit.demo.ordermanagement.response.ProductErrorResponse;
 import com.vaibhavi.intuit.demo.ordermanagement.response.ValidationErrorResponse;
 
 @ControllerAdvice
 public class DefaultExceptionHandler {
 	
+	private static final Logger logger=LoggerFactory.getLogger(DefaultExceptionHandler.class);
+	
 	@ExceptionHandler
-	public ResponseEntity<ProductErrorResponse> handleException(ProductNotFoundException exception)
+	public ResponseEntity<ProductErrorResponse> handleException(ProductIdInvalidException exception)
 	{
 		ProductErrorResponse productErrorResponse = new ProductErrorResponse();
 		
@@ -26,6 +32,8 @@ public class DefaultExceptionHandler {
 		productErrorResponse.setMessage(exception.getMessage());
 		productErrorResponse.setTimeStamp(System.currentTimeMillis());
 		
+		logger.error(exception.getMessage());
+
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(productErrorResponse);
 	}
 	
@@ -46,7 +54,25 @@ public class DefaultExceptionHandler {
 	    validationErrorResponse.setErrors(errors);
 	    validationErrorResponse.setTimeStamp(System.currentTimeMillis());
 	    
+		logger.error(exception.getMessage());
+		logger.debug(validationErrorResponse.getErrors().toString());
+
+		
 	    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationErrorResponse);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<OrderErrorResponse> handleOrderInvalidException(OrderInvalidException exception)
+	{
+		OrderErrorResponse orderErrorResponse = new OrderErrorResponse();
+		
+		orderErrorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+		orderErrorResponse.setMessage(exception.getMessage());
+		orderErrorResponse.setTimeStamp(System.currentTimeMillis());
+		
+		logger.error(exception.getMessage());
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(orderErrorResponse);
 	}
 	
 	@ExceptionHandler
@@ -54,11 +80,13 @@ public class DefaultExceptionHandler {
 	{
 		ProductErrorResponse productErrorResponse = new ProductErrorResponse();
 		
-		productErrorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+		productErrorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		productErrorResponse.setMessage(exception.getMessage());
 		productErrorResponse.setTimeStamp(System.currentTimeMillis());
 		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(productErrorResponse);
+		logger.error(exception.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(productErrorResponse);
 	}
 	
 	
