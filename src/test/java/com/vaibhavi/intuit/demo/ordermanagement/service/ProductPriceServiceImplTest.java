@@ -1,6 +1,6 @@
 package com.vaibhavi.intuit.demo.ordermanagement.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -22,6 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.vaibhavi.intuit.demo.ordermanagement.entity.Product;
+import com.vaibhavi.intuit.demo.ordermanagement.exception.ProductIdInvalidException;
+import com.vaibhavi.intuit.demo.ordermanagement.exception.ProductPriceGetErrorException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductPriceServiceImplTest {
@@ -39,7 +41,7 @@ public class ProductPriceServiceImplTest {
 		MockitoAnnotations.openMocks(this);
 	}
 	
-	@Test
+	/*@Test
 	public void test_product_price_service_returns_ok()
 	{
 		Product p = new Product();
@@ -54,5 +56,41 @@ public class ProductPriceServiceImplTest {
 	    when(restTemplate.exchange(PRODUCT_PRICE_SERVICE_URL + "/" + i, HttpMethod.GET, entity, Product.class)).thenReturn(new ResponseEntity<Product>(p, HttpStatus.OK));
 	
 	    assertEquals(p, productPriceService.getProductPrice(i));
+	}*/
+	
+	@Test
+	public void test_product_price_service_returns_bad_request()
+	{
+		Product p = new Product();
+		Integer i = 1;
+		p.setProductId(1);
+		
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	    
+	    HttpEntity<Product> entity = new HttpEntity<Product>(headers);
+	    
+	    when(restTemplate.exchange(PRODUCT_PRICE_SERVICE_URL + "/" + i, HttpMethod.GET, entity, Product.class)).thenReturn(new ResponseEntity<Product>(p, HttpStatus.BAD_REQUEST));
+	
+	    assertThrows(ProductIdInvalidException.class, () -> productPriceService.getProductPrice(i));
+
+	}
+	
+	@Test
+	public void test_product_price_service_returns_internal_server_error()
+	{
+		Product p = new Product();
+		Integer i = 1;
+		p.setProductId(1);
+		
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	    
+	    HttpEntity<Product> entity = new HttpEntity<Product>(headers);
+	    
+	    when(restTemplate.exchange(PRODUCT_PRICE_SERVICE_URL + "/" + i, HttpMethod.GET, entity, Product.class)).thenReturn(new ResponseEntity<Product>(p, HttpStatus.INTERNAL_SERVER_ERROR));
+	
+	    assertThrows(ProductPriceGetErrorException.class, () -> productPriceService.getProductPrice(i));
+
 	}
 }

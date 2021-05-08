@@ -14,16 +14,20 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.vaibhavi.intuit.demo.ordermanagement.OrdermanagementApplication;
 import com.vaibhavi.intuit.demo.ordermanagement.entity.Order;
 import com.vaibhavi.intuit.demo.ordermanagement.entity.OrderProduct;
 import com.vaibhavi.intuit.demo.ordermanagement.entity.Product;
 import com.vaibhavi.intuit.demo.ordermanagement.service.OrderPlaceService;
 
+@ContextConfiguration(classes=OrdermanagementApplication.class)
 @WebMvcTest(value = OrderRestController.class)
 public class OrderRestControllerTest {
 	
@@ -82,7 +86,7 @@ public class OrderRestControllerTest {
 		
 		when(orderPlaceService.placeOrder(Mockito.any(Order.class))).thenReturn(o);
 		
-		String orderJson = "";
+		String orderJson = "{}";
 				
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/products/orders")
