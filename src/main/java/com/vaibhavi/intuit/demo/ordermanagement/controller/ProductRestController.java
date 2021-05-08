@@ -20,7 +20,7 @@ import com.vaibhavi.intuit.demo.ordermanagement.service.ProductPriceService;
 public class ProductRestController {
 
 	@Autowired
-	ProductPriceService productPriceService;
+	private ProductPriceService productPriceService;
 	
 	@GetMapping("/price/{productId}")
 	public Product getProductPrice(@PathVariable @NotNull Integer productId) {
