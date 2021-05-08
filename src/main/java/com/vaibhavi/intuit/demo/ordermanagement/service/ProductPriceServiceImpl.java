@@ -1,44 +1,36 @@
 package com.vaibhavi.intuit.demo.ordermanagement.service;
 
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-
-import com.vaibhavi.intuit.demo.ordermanagement.entity.Post;
-//import com.vaibhavi.intuit.demo.ordermanagement.entity.Product;
-import com.vaibhavi.intuit.demo.ordermanagement.exception.ProductNotFoundException;
-
-import reactor.core.publisher.Mono;
+import org.springframework.web.client.RestTemplate;
+//import com.vaibhavi.intuit.demo.ordermanagement.entity.Post;
+import com.vaibhavi.intuit.demo.ordermanagement.entity.Product;
 
 @Service
 public class ProductPriceServiceImpl implements ProductPriceService{
 
+	@Autowired
+	private RestTemplate restTemplate;
+	
 	@Value("${product-price-service.url}")
 	String PRODUCT_PRICE_SERVICE_URL;
 	
 	@Override
-	public float getProductPrice(int productId) {
-		WebClient client = WebClient.builder()
-				  .baseUrl(PRODUCT_PRICE_SERVICE_URL)
-				  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) 
-				  .build();
+	public Product getProductPrice(int productId) {
 		
-		Mono<Post> response = client.get()
-		        .uri("/posts/" + productId)
-		        .retrieve()
-		        .onStatus(httpStatus -> HttpStatus.NOT_FOUND.equals(httpStatus),
-		                clientResponse -> null)
-		        .bodyToMono(Post.class);
-		
-		if(response == null)
-		{
-			throw new ProductNotFoundException("Product with ID " + productId + "not found");
-		}
-		
-		return response.block().getUserId();
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	    
+	    HttpEntity<Product> entity = new HttpEntity<Product>(headers);
+	      
+	    return restTemplate.exchange(PRODUCT_PRICE_SERVICE_URL + "/" + productId, HttpMethod.GET, entity, Product.class).getBody();
 	}
 	
 }
