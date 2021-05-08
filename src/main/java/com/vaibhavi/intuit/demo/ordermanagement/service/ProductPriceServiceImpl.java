@@ -17,12 +17,12 @@ import reactor.core.publisher.Mono;
 public class ProductPriceServiceImpl implements ProductPriceService{
 
 	@Value("${product-price-service.url}")
-	String PRICE_SERVICE_URL;
+	String PRODUCT_PRICE_SERVICE_URL;
 	
 	@Override
 	public float getProductPrice(int productId) {
 		WebClient client = WebClient.builder()
-				  .baseUrl(PRICE_SERVICE_URL)
+				  .baseUrl(PRODUCT_PRICE_SERVICE_URL)
 				  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) 
 				  .build();
 		
