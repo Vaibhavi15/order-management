@@ -2,6 +2,8 @@ package com.vaibhavi.intuit.demo.ordermanagement.controller;
 
 import javax.validation.constraints.NotNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +21,22 @@ import com.vaibhavi.intuit.demo.ordermanagement.service.ProductPriceService;
 @RequestMapping("/products")
 public class ProductRestController {
 
+	private static final Logger logger=LoggerFactory.getLogger(ProductRestController.class);
+
 	@Autowired
-	ProductPriceService productPriceService;
+	private ProductPriceService productPriceService;
 	
 	@GetMapping("/price/{productId}")
 	public Product getProductPrice(@PathVariable @NotNull Integer productId) {
+		
+		logger.info("Get Price called for " + productId);
 
-		return productPriceService.getProductPrice(productId);
+		Product response = productPriceService.getProductPrice(productId);
+		
+		if(response != null)
+		{
+			logger.debug("Product id is " + response.getProductId() + " price is " + response.getPrice());
+		}
+		return response;
 	}
 }

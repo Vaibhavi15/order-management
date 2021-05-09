@@ -1,25 +1,32 @@
 package com.vaibhavi.intuit.demo.ordermanagement.entity;
 
-import java.util.List;
-
+import java.util.ArrayList;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class Order {
+	
 	private int orderId;
 	private String orderCreationTime;
+
 	@NotEmpty(message = "Order is empty, no products specified")
 	@NotNull(message = "Order is null, no products specified")
-	private List<@Valid OrderProduct> orderProduct;
+	private ArrayList<@Valid OrderProduct> orderProduct;
+	@NotEmpty(message = "Payment details are empty")
+	@NotNull(message = "Payment details is null")
+	private Payment payment;
 	private String status;
 	
-	public Order(int orderId, String orderCreationTime, List<OrderProduct> orderProduct, String status) {
-		this.orderId = orderId;
-		this.orderCreationTime = orderCreationTime;
-		this.orderProduct = orderProduct;
-		this.status = status;
+	@Override
+	public String toString() {
+		return "[orderId:" + orderId + ", orderCreationTime:" + orderCreationTime + ", orderProduct:"
+				+ orderProduct + ", status:" + status + "]";
 	}
+	public Order(){
+		
+	}
+	
 	public int getOrderId() {
 		return orderId;
 	}
@@ -32,10 +39,10 @@ public class Order {
 	public void setOrderCreationTime(String orderCreationTime) {
 		this.orderCreationTime = orderCreationTime;
 	}
-	public List<OrderProduct> getOrderProduct() {
+	public ArrayList<OrderProduct> getOrderProduct() {
 		return orderProduct;
 	}
-	public void setOrderProduct(List<OrderProduct> orderProduct) {
+	public void setOrderProduct(ArrayList<OrderProduct> orderProduct) {
 		this.orderProduct = orderProduct;
 	}
 	public String getStatus() {
@@ -44,5 +51,12 @@ public class Order {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public Payment getPayment() {
+		return payment;
+	}
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+	
 	
 }

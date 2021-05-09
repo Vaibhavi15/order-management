@@ -4,5 +4,5 @@ import com.vaibhavi.intuit.demo.ordermanagement.entity.Product;
 
 public interface ProductPriceService {
 
-	public Product getProductPrice(int productId);
+	public Product getProductPrice(Integer productId);
 }
