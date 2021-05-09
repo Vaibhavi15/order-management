@@ -1,7 +1,14 @@
 package com.vaibhavi.intuit.demo.ordermanagement.entity;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class Payment {
+	@NotEmpty(message = "Payment method are empty")
+	@NotNull(message = "Payment method is null")
 	private String paymentMethod;
+	@NotEmpty(message = "Payment details are empty")
+	@NotNull(message = "Payment details is null")
 	private String paymentDetails;
 	private String paymentStatus;
 	
