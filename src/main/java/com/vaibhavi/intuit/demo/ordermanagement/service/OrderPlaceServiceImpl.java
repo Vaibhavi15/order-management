@@ -15,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.vaibhavi.intuit.demo.ordermanagement.common.Constants;
 import com.vaibhavi.intuit.demo.ordermanagement.entity.Order;
+import com.vaibhavi.intuit.demo.ordermanagement.entity.Payment;
 import com.vaibhavi.intuit.demo.ordermanagement.exception.OrderInvalidException;
 import com.vaibhavi.intuit.demo.ordermanagement.exception.OrderPlaceErrorException;
 
@@ -27,35 +29,77 @@ public class OrderPlaceServiceImpl implements OrderPlaceService {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@Autowired 
+	private PaymentService paymentService;
+	
 	@Value("${order-place-service.url}")
 	String ORDER_PLACE_SERVICE_URL;
+	
+	private Payment isPaymentValid;
+	
+	private Order paymentOrderResponse;
 	
 	@Override
 	public Order placeOrder(Order productOrder) {
 		
+		paymentOrderResponse = productOrder;
+		
 		logger.trace("Place Order called");
+		
+		paymentOrderResponse = makePaymentService(productOrder);
+		
+		logger.debug("Payment complete");
 		
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 	    
-	    HttpEntity<Order> entity = new HttpEntity<Order>(productOrder,headers);
+	    HttpEntity<Order> entity = new HttpEntity<Order>(paymentOrderResponse,headers);
 	      
-	    ResponseEntity<Order> response = restTemplate.exchange(ORDER_PLACE_SERVICE_URL + "/posts", HttpMethod.POST, entity, Order.class);
+	    ResponseEntity<Order> response = restTemplate.exchange(ORDER_PLACE_SERVICE_URL + "/orders", HttpMethod.POST, entity, Order.class);
+	    
+	    if(response == null || response.getBody() == null)
+	    {
+	    	logger.error(Constants.SERVICE_NULL_RESPONSE);
+	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR);
+	    }
 	    
 	    if(response.getStatusCode() == HttpStatus.NOT_FOUND || response.getStatusCode() == HttpStatus.BAD_REQUEST)
     	{
-	    	logger.error("Products in the Order are invalid");
-	    	throw new OrderInvalidException("Products in the Order are invalid");
+	    	logger.error(Constants.INVALID_PRODUCT_ORDER);
+	    	throw new OrderInvalidException(Constants.INVALID_PRODUCT_ORDER);
     	}
 	    
-	    if(response.getStatusCode() != HttpStatus.OK || response.getBody() == null)
+	    if(response.getStatusCode() != HttpStatus.OK)
     	{
-	    	logger.error("Interal Server Error");
-	    	throw new OrderPlaceErrorException("Interal Server Error");
+	    	logger.error(Constants.INTERNAL_SERVER_ERROR);
+	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR);
     	}
 	    
 		logger.trace("Place Order response got");
 	    return response.getBody();
 	 
+	}
+	
+	@Override
+	public Order makePaymentService(Order order)
+	{
+		try
+		{
+			isPaymentValid = paymentService.validatePaymentMethod(order.getPayment());
+			order.setPayment(isPaymentValid);
+			paymentOrderResponse = paymentService.makePayment(order);
+		}
+		catch(OrderInvalidException e)
+		{
+			logger.error(Constants.INVALID_PAYMENT_DETAILS);
+	    	throw new OrderInvalidException(Constants.INVALID_PAYMENT_DETAILS);
+		}
+		catch(Exception e)
+		{
+			logger.error(Constants.INTERNAL_SERVER_ERROR);
+	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR);
+		}
+		
+		return order;
 	}
 }

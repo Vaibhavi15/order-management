@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.vaibhavi.intuit.demo.ordermanagement.common.Constants;
 import com.vaibhavi.intuit.demo.ordermanagement.entity.Product;
 import com.vaibhavi.intuit.demo.ordermanagement.exception.ProductIdInvalidException;
 import com.vaibhavi.intuit.demo.ordermanagement.exception.ProductPriceGetErrorException;
@@ -44,14 +45,14 @@ public class ProductPriceServiceImpl implements ProductPriceService{
 	    
 	    if(response.getStatusCode() == HttpStatus.NOT_FOUND || response.getStatusCode() == HttpStatus.BAD_REQUEST)
     	{
-	    	logger.error("Products Id is invalid");
-	    	throw new ProductIdInvalidException("Products Id is invalid");
+	    	logger.error(Constants.INVALID_PRODUCT_ID);
+	    	throw new ProductIdInvalidException(Constants.INVALID_PRODUCT_ID);
     	}
 	    
 	    if(response.getStatusCode() != HttpStatus.OK || response.getBody() == null)
     	{
-	    	logger.error("Interal Server Error");
-	    	throw new ProductPriceGetErrorException("Interal Server Error");
+	    	logger.error(Constants.INTERNAL_SERVER_ERROR);
+	    	throw new ProductPriceGetErrorException(Constants.INTERNAL_SERVER_ERROR);
     	}
 	    
 		logger.trace("Get Product Price response got");

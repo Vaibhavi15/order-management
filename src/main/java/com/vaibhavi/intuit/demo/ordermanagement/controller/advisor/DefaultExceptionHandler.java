@@ -12,9 +12,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.vaibhavi.intuit.demo.ordermanagement.common.Constants;
 import com.vaibhavi.intuit.demo.ordermanagement.exception.OrderInvalidException;
+import com.vaibhavi.intuit.demo.ordermanagement.exception.PaymentInvalidException;
 import com.vaibhavi.intuit.demo.ordermanagement.exception.ProductIdInvalidException;
 import com.vaibhavi.intuit.demo.ordermanagement.response.OrderErrorResponse;
+import com.vaibhavi.intuit.demo.ordermanagement.response.PaymentErrorResponse;
 import com.vaibhavi.intuit.demo.ordermanagement.response.ProductErrorResponse;
 import com.vaibhavi.intuit.demo.ordermanagement.response.ValidationErrorResponse;
 
@@ -50,7 +53,7 @@ public class DefaultExceptionHandler {
 	    });
 	    
 	    validationErrorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-	    validationErrorResponse.setMessage("Input Validation Error");
+	    validationErrorResponse.setMessage(Constants.INPUT_VALIDATION_ERROR);
 	    validationErrorResponse.setErrors(errors);
 	    validationErrorResponse.setTimeStamp(System.currentTimeMillis());
 	    
@@ -73,6 +76,20 @@ public class DefaultExceptionHandler {
 		logger.error(exception.getMessage());
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(orderErrorResponse);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<PaymentErrorResponse> handlePaymentInvalidException(PaymentInvalidException exception)
+	{
+		PaymentErrorResponse paymentErrorResponse = new PaymentErrorResponse();
+		
+		paymentErrorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+		paymentErrorResponse.setMessage(exception.getMessage());
+		paymentErrorResponse.setTimeStamp(System.currentTimeMillis());
+		
+		logger.error(exception.getMessage());
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(paymentErrorResponse);
 	}
 	
 	@ExceptionHandler

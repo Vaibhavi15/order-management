@@ -2,24 +2,24 @@ package com.vaibhavi.intuit.demo.ordermanagement.entity;
 
 import javax.validation.constraints.NotNull;
 
+import com.vaibhavi.intuit.demo.ordermanagement.common.Constants;
+
 
 public class Product {
 	
-	@NotNull(message = "Product Id cannot be null.")
+	@NotNull(message = Constants.INVALID_PRODUCT_ID)
 	private Integer productId;
 	private String productName;
 	private float price;
-	private int stock;
 	
 	public Product() {
 		
 	}
 	
-	public Product(Integer productId, String productName, float price, int stock) {
+	public Product(Integer productId, String productName, float price) {
 		this.productId = productId;
 		this.productName = productName;
 		this.price = price;
-		this.stock = stock;
 	}
 
 	public float getPrice() {
@@ -28,14 +28,6 @@ public class Product {
 
 	public void setPrice(float price) {
 		this.price = price;
-	}
-
-	public int getStock() {
-		return stock;
-	}
-
-	public void setStock(int stock) {
-		this.stock = stock;
 	}
 	
 	public Integer getProductId() {
@@ -53,8 +45,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "[productId:" + productId + ", productName:" + productName + ", price:" + price + ", stock="
-				+ stock + "]";
+		return "[productId:" + productId + ", productName:" + productName + ", price:" + price + "]";
 	}
 	
 }

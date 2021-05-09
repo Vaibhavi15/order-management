@@ -13,6 +13,9 @@ public class Order {
 	@NotEmpty(message = "Order is empty, no products specified")
 	@NotNull(message = "Order is null, no products specified")
 	private ArrayList<@Valid OrderProduct> orderProduct;
+	@NotEmpty(message = "Payment details are empty")
+	@NotNull(message = "Payment details is null")
+	private Payment payment;
 	private String status;
 	
 	@Override
@@ -24,12 +27,6 @@ public class Order {
 		
 	}
 	
-	public Order(int orderId, String orderCreationTime, ArrayList<OrderProduct> orderProduct, String status) {
-		this.orderId = orderId;
-		this.orderCreationTime = orderCreationTime;
-		this.orderProduct = orderProduct;
-		this.status = status;
-	}
 	public int getOrderId() {
 		return orderId;
 	}
@@ -54,5 +51,12 @@ public class Order {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public Payment getPayment() {
+		return payment;
+	}
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+	
 	
 }
