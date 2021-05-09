@@ -13,9 +13,8 @@ public class Order {
 	@NotEmpty(message = "Order is empty, no products specified")
 	@NotNull(message = "Order is null, no products specified")
 	private ArrayList<@Valid OrderProduct> orderProduct;
-	@NotEmpty(message = "Payment details are empty")
 	@NotNull(message = "Payment details is null")
-	private Payment payment;
+	private @Valid Payment payment;
 	private String status;
 	
 	@Override
