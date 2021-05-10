@@ -60,7 +60,7 @@ public class OrderPlaceServiceImpl implements OrderPlaceService {
 	    if(response == null || response.getBody() == null)
 	    {
 	    	logger.error(Constants.SERVICE_NULL_RESPONSE);
-	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR);
+	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
 	    }
 	    
 	    if(response.getStatusCode() == HttpStatus.NOT_FOUND || response.getStatusCode() == HttpStatus.BAD_REQUEST)
@@ -71,8 +71,8 @@ public class OrderPlaceServiceImpl implements OrderPlaceService {
 	    
 	    if(response.getStatusCode() != HttpStatus.OK)
     	{
-	    	logger.error(Constants.INTERNAL_SERVER_ERROR);
-	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR);
+	    	logger.error(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
+	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
     	}
 	    
 		logger.trace("Place Order response got");
@@ -96,8 +96,8 @@ public class OrderPlaceServiceImpl implements OrderPlaceService {
 		}
 		catch(Exception e)
 		{
-			logger.error(Constants.INTERNAL_SERVER_ERROR);
-	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR);
+			logger.error(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
+	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
 		}
 		
 		return order;
