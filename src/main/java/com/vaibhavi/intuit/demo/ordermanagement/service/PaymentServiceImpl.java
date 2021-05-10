@@ -48,7 +48,7 @@ public class PaymentServiceImpl implements PaymentService {
 	    if(response == null || response.getBody() == null)
 	    {
 	    	logger.error(Constants.SERVICE_NULL_RESPONSE);
-	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR);
+	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
 	    }
 	    if(response.getStatusCode() == HttpStatus.NOT_FOUND || response.getStatusCode() == HttpStatus.BAD_REQUEST)
     	{
@@ -58,8 +58,8 @@ public class PaymentServiceImpl implements PaymentService {
 	    
 	    if(response.getStatusCode() != HttpStatus.OK || response.getBody().getPaymentStatus().equals("FAILED"))
     	{
-	    	logger.error(Constants.INTERNAL_SERVER_ERROR);
-	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR);
+	    	logger.error(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
+	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
     	}
 	    
 	    logger.trace("Payment details validated");
@@ -79,7 +79,7 @@ public class PaymentServiceImpl implements PaymentService {
 	    if(response == null || response.getBody() == null)
 	    {
 	    	logger.error(Constants.SERVICE_NULL_RESPONSE);
-	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR);
+	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
 	    }
 	    if(response.getStatusCode() == HttpStatus.NOT_FOUND || response.getStatusCode() == HttpStatus.BAD_REQUEST)
     	{
@@ -89,8 +89,8 @@ public class PaymentServiceImpl implements PaymentService {
 	    
 	    if(response.getStatusCode() != HttpStatus.OK )
     	{
-	    	logger.error(Constants.INTERNAL_SERVER_ERROR);
-	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR);
+	    	logger.error(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
+	    	throw new OrderPlaceErrorException(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
     	}
 	    
 		logger.trace("Payment response got");

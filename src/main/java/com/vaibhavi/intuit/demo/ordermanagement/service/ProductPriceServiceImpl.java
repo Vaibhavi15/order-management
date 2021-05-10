@@ -51,8 +51,8 @@ public class ProductPriceServiceImpl implements ProductPriceService{
 	    
 	    if(response.getStatusCode() != HttpStatus.OK || response.getBody() == null)
     	{
-	    	logger.error(Constants.INTERNAL_SERVER_ERROR);
-	    	throw new ProductPriceGetErrorException(Constants.INTERNAL_SERVER_ERROR);
+	    	logger.error(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
+	    	throw new ProductPriceGetErrorException(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
     	}
 	    
 		logger.trace("Get Product Price response got");

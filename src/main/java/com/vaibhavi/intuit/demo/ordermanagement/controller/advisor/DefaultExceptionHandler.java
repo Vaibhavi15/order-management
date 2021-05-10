@@ -53,7 +53,7 @@ public class DefaultExceptionHandler {
 	    });
 	    
 	    validationErrorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-	    validationErrorResponse.setMessage(Constants.INPUT_VALIDATION_ERROR);
+	    validationErrorResponse.setMessage(Constants.INPUT_VALIDATION_ERROR_MESSAGE);
 	    validationErrorResponse.setErrors(errors);
 	    validationErrorResponse.setTimeStamp(System.currentTimeMillis());
 	    
@@ -98,7 +98,7 @@ public class DefaultExceptionHandler {
 		ProductErrorResponse productErrorResponse = new ProductErrorResponse();
 		
 		productErrorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-		productErrorResponse.setMessage(exception.getMessage());
+		productErrorResponse.setMessage(Constants.INTERNAL_SERVER_ERROR_MESSAGE);
 		productErrorResponse.setTimeStamp(System.currentTimeMillis());
 		
 		logger.error(exception.getMessage());
